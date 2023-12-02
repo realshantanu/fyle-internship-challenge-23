@@ -1,5 +1,153 @@
-<div class="grid h-screen place-items-center">
-  <div class="font-bold text-3xl">
-    Fyle Internship Challenge
+<!-- Header Section -->
+<div class="bg-gray-100 fixed top-0 w-full" style="z-index: 3;">
+  <!-- Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header Content -->
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="/"><span class="text-black font-bold text-lg">Fyle Internship Assignment</span></a>
+      </div>
+      <!-- Search Box and Button -->
+      <div class="flex">
+        <div class="relative mr-4">
+          <input type="text" [(ngModel)]="username" (keyup.enter)="onSearch(username)" spellcheck="false" class="bg-white text-gray-900 rounded-md py-2 px-4 pr-10 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-gray-600 w-64" placeholder="Search">
+        </div>
+        <div class="relative">
+          <button (click)="onSearch(username)" class="bg-blue-500 text-white rounded-md py-2 px-4">Search</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- Welcome Section -->
+<ng-container *ngIf="loadingState === false && isSearched === false">
+  <div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8 mt-20 mb-10">
+    <div class="bg-purple-700 text-white rounded-lg shadow p-6 text-center">
+      <h2 class="text-2xl font-bold mb-4">👋 Welcome to the Fyle Internship Assignment!</h2>
+      <p class="text-gray-200 mb-4">🔍 This web app allows you to search for GitHub users and view their profile and repositories.</p>
+      <p class="text-gray-200 mb-4">🚀 To get started, enter a GitHub username in the search box at the top of the page and click the "Search" button or press Enter.</p>
+      <p class="text-gray-200 mb-4">📚 The user's profile and a list of their repositories will be displayed below. You can navigate through the pages of repositories using the "First", "Previous", "Next", and "Last" buttons.</p>
+      <p class="text-gray-200 mb-4">🎉 Enjoy exploring GitHub profiles!</p>
+      <p class="italic">Created by Shantanu Dipak Rajmane</p> 
+    </div>
+  </div>
+</ng-container>
+
+<!-- Error Section -->
+<ng-container *ngIf="loadingState === false && isSearched === true && !user">
+  <div class="max-w-md mx-auto px-4 sm:px-6 lg:px-8 mt-20 mb-10">
+    <div class="bg-red-500 text-white rounded-lg shadow p-6 text-center">
+      <h2 class="text-2xl font-bold mb-4">⚠️ Error</h2>
+      <p class="text-gray-200 mb-4">{{ errorMessage }}</p>
+    </div>
+  </div>
+</ng-container>
+
+<!-- User Profile Section -->
+<ng-container *ngIf="loadingState === false && isSearched === true  && user">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 mb-10">
+    <div class="flex flex-col gap-4">
+      <!-- Profile Card -->
+      <div class="bg-white rounded-lg p-4 text-black max-h-96 overflow-y-auto">
+        <h2 class="text-xl font-bold mb-4">Profile</h2>
+        <!-- Top Column -->
+        <div class="flex flex-col md:flex-row">
+          <!-- Profile Image -->
+          <div class="md:w-1/3">
+            <img [src]="user?.data?.avatar_url" alt="Profile Image" class="w-32 h-32 rounded-full mx-auto bg-gray-200">
+          </div>
+          <!-- Profile Details -->
+          <div class="md:w-2/3">
+            <h2 class="text-xl font-bold mb-2">{{ user?.data?.name }}</h2>
+            <p class="text-gray-600 mb-4">{{ user?.data?.bio }}</p>
+            <p *ngIf="user.data.location !== null" class="text-gray-600 mb-4">Location: {{ user?.data?.location }}</p>
+            <!-- Social Links -->
+            <div class="flex space-x-4">
+              <a *ngIf="user.data.twitter_username !== null" [href]="'https://twitter.com/'+user?.data?.twitter_username" class="text-blue-500 hover:text-blue-700">Twitter</a>
+              <a [href]="user?.data?.html_url" class="text-blue-500 hover:text-blue-700">GitHub</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Repositories Section -->
+      <div class="grid grid-cols-1 gap-4">
+        <div class="bg-white rounded-lg p-4 text-black">
+          <h2 class="text-xl font-bold mb-4">Repositories</h2>
+          <!-- Repository Cards -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div *ngFor="let repo of repos" class="bg-gray-200 rounded-lg p-4 text-black">
+              <h3 class="text-lg font-bold mb-2">{{ repo.name }}</h3>
+              <p class="text-gray-600 mb-2">{{ repo.description }}</p>
+              <!-- Language Tags -->
+              <div class="flex flex-wrap mt-2">
+                <div *ngFor="let language of repo.languages" class="p-2 bg-gray-300 text-gray-700 rounded mr-2 mb-2">
+                  {{ language }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Pagination -->
+          <div class="flex justify-between items-center mt-4 space-x-2">
+            <!-- Items Per Page Dropdown -->
+            <div class="relative inline-flex items-center">
+              <span class="mr-2">No of Repositories per page:</span>
+              <svg class="w-2 h-2 absolute top-0 right-0 m-4 pointer-events-none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 412 232"><path d="M206 171.144L42.678 7.822c-9.763-9.763-25.592-9.763-35.355 0-9.763 9.762-9.763 25.592 0 35.355l189.21 189.211c9.372 9.373 24.749 9.373 34.121 0l189.21-189.211c9.763-9.763 9.763-25.592 0-35.355-9.763-9.763-25.592-9.763-35.355 0L206 171.144z" fill="#648299" fill-rule="nonzero"/></svg>
+              <select #itemsPerPageSelect [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange(itemsPerPageSelect.value)" class="border border-gray-300 rounded-full text-gray-600 h-10 pl-5 pr-10 bg-white hover:border-gray-400 focus:outline-none appearance-none">
+                <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{option}}</option>
+              </select>
+            </div>
+            <!-- Pagination Buttons -->
+            <div class="flex justify-end space-x-2">
+              <button (click)="goToFirstPage()" [disabled]="currentPage === 1" class="px-3 py-1 rounded text-blue-500 bg-gray-300 disabled:bg-gray-200" [ngClass]="{'bg-gray-300': currentPage !== 1, 'bg-gray-200': currentPage === 1}">First</button>
+              <button (click)="goToPreviousPage()" [disabled]="currentPage === 1" class="px-3 py-1 rounded text-blue-500 bg-gray-300 disabled:bg-gray-200" [ngClass]="{'bg-gray-300': currentPage !== 1, 'bg-gray-200': currentPage === 1}">Previous</button>
+              <button class="px-3 py-1 rounded text-blue-500 bg-gray-300 disabled:bg-gray-200" disabled>{{ currentPage }} / {{ totalPages }}</button>
+              <button (click)="goToNextPage()" [disabled]="currentPage === totalPages" class="px-3 py-1 rounded text-blue-500 bg-gray-300 disabled:bg-gray-200" [ngClass]="{'bg-gray-300': currentPage !== totalPages, 'bg-gray-200': currentPage === totalPages}">Next</button>
+              <button (click)="goToLastPage()" [disabled]="currentPage === totalPages" class="px-3 py-1 rounded text-blue-500 bg-gray-300 disabled:bg-gray-200" [ngClass]="{'bg-gray-300': currentPage !== totalPages, 'bg-gray-200': currentPage === totalPages}">Last</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<!-- Loading Skeletons -->
+<ng-container *ngIf="loadingState === true">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20 mb-10">
+    <div class="flex flex-col gap-4">
+      <!-- Profile Skeleton -->
+      <div class="rounded-lg p-4 text-black max-h-96 overflow-y-auto">
+        <h2 class="text-xl font-bold mb-4">Profile</h2>
+        <!-- Top Column Skeleton -->
+        <div class="flex flex-col md:flex-row">
+          <div class="md:w-1/3 flex justify-center">
+            <ngx-skeleton-loader [theme]='{"borderRadius":"9999px","width":"8rem","height":"8rem","backgroundColor":"#E5E7EB"}'></ngx-skeleton-loader>
+          </div>
+          <div class="md:w-2/3">
+            <ngx-skeleton-loader count="4" [theme]='{"display":"flex","width": "24rem","margin-bottom":"1rem" ,"backgroundColor":"#E5E7EB"}'></ngx-skeleton-loader>
+          </div>
+        </div>
+      </div>
+      <!-- Repositories Skeleton -->
+      <div class="grid grid-cols-1 gap-4">
+        <div class="rounded-lg p-4 text-black">
+          <h2 class="text-xl font-bold mb-4">Repositories</h2>
+          <!-- Repository Cards Skeleton -->
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div *ngFor="let repo of repos" class="bg-gray-300 rounded-lg p-4 text-black">
+              <ngx-skeleton-loader count="1" [theme]='{"display":"flex","width": "16rem","margin-bottom":"1rem" ,"backgroundColor":"#E5E7EB"}'></ngx-skeleton-loader>
+              <ngx-skeleton-loader count="1" [theme]='{"display":"flex","width": "20rem","height":"5rem","margin-bottom":"1rem" ,"backgroundColor":"#E5E7EB"}'></ngx-skeleton-loader>
+              <div class="flex flex-wrap mt-2">
+                <div *ngFor="let language of repo.languages" class="text-gray-700 rounded mr-2 mb-2">
+                  <ngx-skeleton-loader count="1" [theme]='{"display":"flex","width": "8rem","height":"2rem","backgroundColor":"#E5E7EB"}'></ngx-skeleton-loader>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>

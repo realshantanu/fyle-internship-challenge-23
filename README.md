@@ -1,43 +1,59 @@
 # Fyle Frontend Challenge
 
-## Who is this for?
+##Introduction
+Welcome to the Fyle Internship Assignment Angular application! This project aims to provide a user-friendly web app for exploring GitHub profiles and repositories. Utilizing Angular and the GitHub API, users can seamlessly search for GitHub users, view their profiles, and explore their repositories.
 
-This challenge is meant for candidates who wish to intern at Fyle and work with our engineering team. The candidate should be able to commit to at least 6 months of dedicated time for internship.
+## Features
 
-## Why work at Fyle?
+- **User Search**: Easily search for GitHub users by entering their username.
+- **Profile Details**: Get detailed information about a user, including their bio, location, and social links.
+- **Repository Display**: View a list of repositories for the searched user, complete with descriptions and languages used.
+- **Pagination**: Navigate through multiple pages of repositories with pagination controls.
+- **Loading Skeletons**: Experience a smooth loading experience with skeleton loaders while data is being fetched.
+- **Error Handling**: Gracefully handle errors, providing informative messages for invalid input or failed API requests.
 
-Fyle is a fast-growing Expense Management SaaS product. We are ~40 strong engineering team at the moment. 
+## How to Use
 
-We are an extremely transparent organization. Check out our [careers page](https://careers.fylehq.com) that will give you a glimpse of what it is like to work at Fyle. Also, check out our Glassdoor reviews [here](https://www.glassdoor.co.in/Reviews/Fyle-Reviews-E1723235.htm). You can read stories from our teammates [here](https://stories.fylehq.com).
+1. Enter a GitHub username in the search box at the top of the page.
+2. Click the "Search" button or press Enter to retrieve user information and repositories.
+3. Explore the user's profile details and repositories listed below.
+4. Navigate through multiple pages of repositories using the pagination controls.
 
-## Challenge outline
+## Libraries Used
 
-This challenge involves implementing application using github api. 
+This Angular application utilizes several libraries to enhance functionality and improve the development process:
 
-The services that you need to use are already implemented - check out ApiService.
+### [Angular](https://angular.io/)
+Angular is a powerful and widely-used web application framework. In this project, Angular is the core framework for building the user interface and managing application logic.
 
-You can see details of this challenge [here](https://fyleuniverse.notion.site/fyleuniverse/Fyle-Frontend-development-challenge-cb5085e5e0864e769e7b98c694400aaa)
+### [ngx-skeleton-loader](https://www.npmjs.com/package/ngx-skeleton-loader)
+The `ngx-skeleton-loader` library is employed to enhance the user experience during data fetching. It provides loading skeletons, creating a smooth transition while waiting for data to load.
 
-__Note__ - This challenge is in angular. We work on angular frameworks & after you join we expect the same from you. Hence it is required to complete this assignement in angular itself.
+### [GitHub Octokit](https://github.com/octokit/rest.js)
+Octokit is a JavaScript toolkit for interacting with the GitHub API. The `Octokit` library is utilized in the `ApiService` to make requests to the GitHub API, fetching user details and repositories.
 
-## What happens next?
+### [HttpClientModule](https://angular.io/api/common/http/HttpClientModule)
+`HttpClientModule` is part of the Angular framework and is used for making HTTP requests. In this project, it is employed to communicate with the GitHub API and retrieve data.
 
-You will hear back within 48 hours from us via email.
+### [FormsModule](https://angular.io/guide/forms)
+Angular's `FormsModule` is used for handling forms and implementing two-way data binding. It plays a crucial role in capturing user input for GitHub username search.
 
-## Installation
+### [NgxSkeletonLoaderModule](https://www.npmjs.com/package/ngx-skeleton-loader)
+The `NgxSkeletonLoaderModule` is imported to integrate the `ngx-skeleton-loader` library. It enhances the user interface by providing loading skeletons while waiting for data to be fetched.
 
-1. Fork this repository to your github account.
-2. Clone the forked repository and proceed with steps mentioned below.
+These libraries collectively contribute to the development and functionality of the Fyle Internship Assignment Angular application, ensuring a robust and user-friendly experience.
 
-### Install requirements
-* Install angular cli [Ref](https://angular.io/cli)
-* `npm install` in this repository 
+## Getting Started
 
-## Development server
+To run the application locally:
 
-Run `ng serve` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+1. Clone this repository.
+2. Run `npm install` to install dependencies.
+3. Run `ng serve` for a dev server.
+4. Navigate to `http://localhost:4200/` in your browser.
 
-## Further help
+Feel free to explore and enjoy exploring GitHub profiles with the Fyle Internship Assignment web app!
 
-Visit the [Angular Documentation](https://angular.io/guide/styleguide) to learn more.
-Styling is to be strictly done with [Tailwind](https://tailwindcss.com/docs/installation).
+## Author
+
+- Shantanu Dipak Rajmane
