@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Octokit } from '@octokit/rest';
 import { Observable, catchError, forkJoin, from, map, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { Octokit } from '@octokit/rest';
-
+import { environment } from '../../environments/environment';
 /**
  * Service for making API requests.
  */
@@ -21,7 +21,7 @@ export class ApiService {
   constructor(
     private httpClient: HttpClient
   ) {
-    this.octokit = new Octokit();
+    this.octokit = new Octokit({auth: environment.apiUrl});
   }
 
   /**
