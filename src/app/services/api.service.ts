@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, forkJoin, from, map, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { Octokit } from '@octokit/rest';
-// import { TOKEN_KEY } from '../environments/environment';
 
 /**
  * Service for making API requests.
