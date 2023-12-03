@@ -22,7 +22,7 @@ export class ApiService {
   constructor(
     private httpClient: HttpClient
   ) {
-    this.octokit = new Octokit({auth: process.env.TOKEN_KEY});
+    this.octokit = new Octokit();
   }
 
   /**
