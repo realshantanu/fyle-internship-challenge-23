@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: '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',
+  apiUrl: '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',
 };
