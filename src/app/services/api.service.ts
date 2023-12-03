@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable, catchError, forkJoin, from, map, throwError } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { Octokit } from '@octokit/rest';
-import { TOKEN_KEY } from '../environments/environment';
 
 /**
  * Service for making API requests.
@@ -22,7 +21,7 @@ export class ApiService {
   constructor(
     private httpClient: HttpClient
   ) {
-    this.octokit = new Octokit({auth: TOKEN_KEY.githubApiKey});
+    this.octokit = new Octokit({auth: (process.env['TOKEN_KEY'])});
   }
 
   /**
